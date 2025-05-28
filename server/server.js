@@ -19,8 +19,7 @@
 //   },
 // });
 
-// const upload = multer({ storage: storage }); 
-
+// const upload = multer({ storage: storage });
 
 // app.use("/images", express.static("upload/images"));
 
@@ -30,11 +29,6 @@
 //     image_url: http://localhost:${PORT}/images/${req.file.filename},
 //   });
 // });
-
-
-
-
-
 
 // app.use(express.json());
 
@@ -46,7 +40,6 @@
 // app.listen(process.env.PORT, () => {
 //   console.log("Server is running on port " + process.env.PORT);
 // });
-
 
 const express = require("express");
 const multer = require("multer");
@@ -67,12 +60,18 @@ const PORT = process.env.PORT || 8000;
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+    cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
   },
 });
 
 const upload = multer({ storage: storage });
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to propftx" });
+});
 app.use("/images", express.static(path.join(__dirname, "upload/images")));
 
 // Upload endpoint
@@ -94,4 +93,3 @@ app.use("/user", userRouter);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
